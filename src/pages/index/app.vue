@@ -66,12 +66,12 @@
       </el-container>
     </el-container>
 
-    <div class="dialog"  :class="show?'divcc divShow':'divcc divHidd'">
+    <div class="dialog" :class="show?'divcc divShow':'divcc divHidd'">
       <div style="width:600px;padding: 15px 8px;">
         <div>数据来自后端</div>
 
         <div style="margin:15px 0">
-          <el-tag type="info" v-for="(item, index) in items" style="margin-right:15px">
+          <el-tag type="info" v-for="item in items"  v-bind:key='item.name' style="margin-right:15px">
             <span>{{ item.name }}</span>
           </el-tag>
         </div>
@@ -83,7 +83,49 @@
   </div>
 </template>
 
-<style>
+
+<script scoped>
+const doMenu = require('../../../servers/menu.js')
+export default {
+  data() {
+    return {
+      show: false,
+      items: []
+    }
+  },
+  created() {
+    //debugger;
+  },
+  methods: {
+    handleShow() {
+      var items = doMenu.GetMenus()
+      //console.log(items);
+      this.show = !this.show
+      this.items = items
+    },
+    logout() {
+      location.assign('../user/login.html')
+    },
+    handleRouter() {
+      //this.$router.push("/about")
+      this.$router.push({
+        //核心语句
+        path: '/about', //跳转的路径
+        query: {
+          //路由传参时push和query搭配使用 ，作用时传递参数
+          id: 1
+        }
+      })
+    },
+    test() {
+      location.assign('../test.html')
+    }
+  }
+}
+</script>
+
+
+<style scoped>
 .el-header {
   background-color: #b3c0d1;
   color: #333;
@@ -111,45 +153,3 @@
   color: #333;
 }
 </style>
-
-<script>
-const doMenu = require('../../../servers/menu.js')
-
-export default {
-  data() {
-    return {
-      show: false,
-      items: []
-    }
-  },
-  created() {
-    //debugger;
-  },
-  methods: {
-    handleShow() {
-      var items = doMenu.GetMenus()
-      //console.log(items);
-      this.show = !this.show
-      this.items = items
-    },
-    logout() {
-      location.assign('../user/login.html')
-    },
-    handleRouter() {
-      //this.$router.push("/about")
-
-      this.$router.push({
-        //核心语句
-        path: '/about', //跳转的路径
-        query: {
-          //路由传参时push和query搭配使用 ，作用时传递参数
-          id: 1
-        }
-      })
-    },
-    test() {
-      location.assign('../test.html')
-    }
-  }
-}
-</script>

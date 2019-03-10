@@ -1,7 +1,7 @@
 'use strict'
 const path = require('path');
 const resolve = dir => path.join(__dirname, dir);
-const titles = require('./title.js')
+const titles = require('./config/title.js')
 const glob = require('glob')
 const pages = {}
 
